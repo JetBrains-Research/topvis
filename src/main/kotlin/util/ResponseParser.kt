@@ -64,6 +64,9 @@ fun buildTreeInfo(folderInfo: FolderInfo): TreeInfo {
         }
         topics += folderInfo.topicsList[i].first
     }
+    if (topics == "") {
+        topics = "No topics found"
+    }
     val name = (if (folderInfo.parent == null) "/" else folderInfo.path.removePrefix(folderInfo.parent!!.path + "/")) +
             " ($topics)"
     val isOpen = folderInfo.isRoot || (folderInfo.parent != null && folderInfo.parent!!.isRoot)
