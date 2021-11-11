@@ -10,7 +10,7 @@ data class Response(val data: Array<Data>)
 
 suspend fun getGitTree(): Pair<TreeInfo?, Boolean> {
     val result =
-        window.fetch("http://localhost:8080/topics.txt").await().text().await() //TODO
+        window.fetch("./topics.txt").await().text().await()
     val json = JSON.parse<Response>(result)
     console.log("Result from Sosed received")
     val folderInfo = buildFileTree(json)
