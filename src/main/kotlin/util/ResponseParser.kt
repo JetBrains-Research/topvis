@@ -46,7 +46,6 @@ fun buildFileTree(json: Response): FolderInfo {
             depth = root.depth + 1,
             topicsList = data.topics.zip(data.probs).toList()
         )
-        console.log(file + " " + root.path)
         root.children.add(info)
         root = info
     }
