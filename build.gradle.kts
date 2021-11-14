@@ -43,10 +43,13 @@ dependencies {
     implementation(kotlinw("styled"))
 
     implementation(npm("core-js", "3.17.3"))
+    implementation(npm("@babel/core", "7.16.0"))
+    implementation(npm("@babel/runtime", "7.16.0"))
 
     implementation(npm("react", "17.0.2"))
     implementation(npm("react-dom", "17.0.2"))
-    implementation(npm("react-folder-tree", "5.0.3"))
+
+    implementation(npm("@geist-ui/react", "2.2.0"))
 
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.0")
 

@@ -1,4 +1,4 @@
-@file:JsModule("react-folder-tree")
+@file:JsModule("@geist-ui/react")
 @file:JsNonModule
 
 package imports
@@ -6,13 +6,15 @@ package imports
 import react.*
 import util.TreeInfo
 
-@JsName("default")
-external val folderTree: ComponentClass<FolderTreeProps>
+@JsName("GeistProvider")
+external val geistProvider: ComponentClass<dynamic>
 
-external interface FolderTreeProps : Props {
-    var data: TreeInfo
-    var initCheckedStatus: String
-    var initOpenStatus: String
-    var showCheckbox: Boolean?
-    var readOnly: Boolean?
+@JsName("CssBaseline")
+external val cssBaseline: ComponentClass<dynamic>
+
+@JsName("Tree")
+external val tree: ComponentClass<TreeProps>
+
+external interface TreeProps : Props {
+    var value: Array<TreeInfo>
 }

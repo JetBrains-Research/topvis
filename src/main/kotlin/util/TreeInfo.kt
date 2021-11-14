@@ -1,7 +1,8 @@
 package util
 
 data class TreeInfo(
+    val type: String,
     val name: String,
-    val isOpen: Boolean?,
-    val children: Array<TreeInfo>?
+    val extra: String,
+    val files: Array<TreeInfo>?
 )

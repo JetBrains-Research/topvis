@@ -67,14 +67,13 @@ fun buildTreeInfo(folderInfo: FolderInfo): TreeInfo {
     if (topics == "") {
         topics = "No topics found"
     }
-    val name = (if (folderInfo.parent == null) "/" else folderInfo.path.removePrefix(folderInfo.parent!!.path + "/")) +
-            " ($topics)"
-    val isOpen = folderInfo.isRoot || (folderInfo.parent != null && folderInfo.parent!!.isRoot)
+    val name = (if (folderInfo.parent == null) "/" else folderInfo.path.removePrefix(folderInfo.parent!!.path + "/"))
     return if (folderInfo.children.isEmpty()) {
         TreeInfo(
+            type = "file",
             name = name,
-            isOpen = isOpen,
-            children = null
+            extra = "($topics)",
+            files = null
         )
     } else {
         val children = mutableListOf<TreeInfo>()
@@ -82,9 +81,10 @@ fun buildTreeInfo(folderInfo: FolderInfo): TreeInfo {
             children.add(buildTreeInfo(child))
         }
         TreeInfo(
+            type = "directory",
             name = name,
-            isOpen = isOpen,
-            children = children.toTypedArray()
+            extra = "($topics)",
+            files = children.toTypedArray()
         )
     }
 }

@@ -1,11 +1,19 @@
 package components
 
+import imports.cssBaseline
 import util.TreeInfo
-import imports.folderTree
-import kotlinx.coroutines.*
+import imports.geistProvider
+import imports.tree
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
+import kotlinx.css.fontSize
+import kotlinx.css.px
 import react.*
 import react.Props
 import react.dom.*
+import styled.css
+import styled.styledH1
 import util.*
 
 external interface AppState : State {
@@ -33,20 +41,22 @@ class App : RComponent<Props, AppState>() {
     }
 
     override fun RBuilder.render() {
-        h1 {
-            +"Repo tree visualizer"
-        }
-        div {
-            repository {
-                isRunMade = state.runStatus
+        geistProvider {
+            cssBaseline {}
+            styledH1 {
+                css {
+                    fontSize = 24.px
+                }
+                +"Repo tree visualizer"
             }
-            if (state.runStatus == 1) {
-                folderTree {
-                    attrs.data = state.data
-                    attrs.initCheckedStatus = "custom"
-                    attrs.initOpenStatus = "closed"
-                    attrs.showCheckbox = false
-                    attrs.readOnly = true
+            div {
+                repository {
+                    isRunMade = state.runStatus
+                }
+                if (state.runStatus == 1) {
+                    tree {
+                        attrs.value = state.data.files!!
+                    }
                 }
             }
         }
