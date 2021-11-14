@@ -58,6 +58,11 @@ class App : RComponent<Props, AppState>() {
                         attrs.value = state.data.files!!
                     }
                 }
+                if (state.runStatus == 0) {
+                    h1 {
+                        +"Something went wrong"
+                    }
+                }
             }
         }
     }
