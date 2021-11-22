@@ -1,5 +1,6 @@
 package components
 
+import imports.collapse
 import imports.cssBaseline
 import util.TreeInfo
 import imports.geistProvider
@@ -18,7 +19,7 @@ import util.*
 
 external interface AppState : State {
     var runStatus: Int
-    var data: TreeInfo
+    var data: List<Pair<TreeInfo, String>>
 }
 
 @OptIn(ExperimentalJsExport::class)
@@ -54,8 +55,13 @@ class App : RComponent<Props, AppState>() {
                     isRunMade = state.runStatus
                 }
                 if (state.runStatus == 1) {
-                    tree {
-                        attrs.value = state.data.files!!
+                    for (info in state.data) {
+                        collapse {
+                            attrs.title = info.second
+                            tree {
+                                attrs.value = info.first.files!!
+                            }
+                        }
                     }
                 }
                 if (state.runStatus == 0) {

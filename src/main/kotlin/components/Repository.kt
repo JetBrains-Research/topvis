@@ -13,10 +13,10 @@ val Repository = fc<RepositoryProps> { props ->
             +"Loading..."
         }
         1 -> h3 {
-            +"Repository tree:"
+            +"Repository trees:"
         }
         0 -> h3 {
-            +"Repository not found"
+            +"Repositories not found"
         }
         else -> h3 {}
     }

@@ -6,12 +6,6 @@ package imports
 import react.*
 import util.TreeInfo
 
-@JsName("GeistProvider")
-external val geistProvider: ComponentClass<dynamic>
-
-@JsName("CssBaseline")
-external val cssBaseline: ComponentClass<dynamic>
-
 @JsName("Tree")
 external val tree: ComponentClass<TreeProps>
 
