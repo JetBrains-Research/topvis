@@ -8,6 +8,7 @@ do
     fi
 done
 git submodule init
+git submodule update
 #git clone git@github.com:salkaevruslan/sosed.git
 cd sosed/
 #git checkout topics
