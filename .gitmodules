@@ -1,0 +1,3 @@
+[submodule "sosed"]
+	path = sosed
+	url = https://github.com/salkaevruslan/sosed
