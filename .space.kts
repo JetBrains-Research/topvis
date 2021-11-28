@@ -3,7 +3,7 @@ job("Generate and publish sites") {
         shellScript {
             interpreter = "/bin/bash"
             content = """
-                ./generate-public-site.sh
+                ./topics.sh input/input.txt
                 cp -r site $mountDir/share
             """.trimIndent()
         }
