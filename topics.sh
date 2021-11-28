@@ -7,10 +7,10 @@ do
         exit 1
     fi
 done
-git clone git@github.com:salkaevruslan/sosed.git
+git submodule init
+#git clone git@github.com:salkaevruslan/sosed.git
 cd sosed/
-git checkout topics
-git pull
+#git checkout topics
 pip3 install cython
 pip3 install -r requirements.txt
 python3 -m sosed.setup_tokenizer
