@@ -3,7 +3,6 @@ package components
 import config.Config
 import imports.collapse
 import imports.cssBaseline
-import util.TreeInfo
 import imports.geistProvider
 import imports.tree
 import kotlinx.coroutines.Dispatchers
@@ -20,7 +19,7 @@ import util.*
 
 external interface AppState : State {
     var runStatus: RunStatus
-    var data: List<Pair<TreeInfo, String>>
+    var data: ParsedData
 }
 
 @OptIn(ExperimentalJsExport::class)
@@ -57,21 +56,31 @@ class App : RComponent<Props, AppState>() {
             }
             styledDiv {
                 css {
-                    marginLeft =  Config.globalLeftMargin
+                    marginLeft = Config.globalLeftMargin
                 }
                 if (state.runStatus == RunStatus.OK) {
-                    for (info in state.data) {
+                    for (info in state.data.treeData) {
                         collapse {
                             attrs.title = info.second
                             styledDiv {
                                 css {
-                                    marginLeft =  Config.treeLeftMargin
+                                    marginLeft = Config.treeLeftMargin
                                 }
                                 tree {
                                     attrs.value = info.first.files!!
                                 }
                             }
                         }
+                    }
+                    styledDiv {
+                        css {
+                            position = Position.fixed
+                            bottom = 0.px
+                            left = 0.px
+                            right = 0.px
+                            textAlign = TextAlign.center
+                        }
+                        +"UTC timestamp: ${state.data.timestamp}"
                     }
                 }
                 if (state.runStatus == RunStatus.FAILED) {

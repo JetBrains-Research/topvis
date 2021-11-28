@@ -9,9 +9,9 @@ data class FileData(val path: String, val topics: Array<String>, val probs: Arra
 
 data class RepoData(val path: String, val files: Array<FileData>)
 
-data class Response(val data: Array<RepoData>)
+data class Response(val timestamp: String, val data: Array<RepoData>)
 
-suspend fun getGitTree(): Pair<List<Pair<TreeInfo, String>>?, Boolean> {
+suspend fun getGitTree(): Pair<ParsedData?, Boolean> {
     val result =
         window.fetch("topics.json").await().text().await()
     val json = JSON.parse<Response>(result)
@@ -24,7 +24,7 @@ suspend fun getGitTree(): Pair<List<Pair<TreeInfo, String>>?, Boolean> {
         Pair(treeInfo, data.path)
     }.toList()
 
-    return Pair(treeInfoList, true)
+    return Pair(ParsedData(json.timestamp, treeInfoList), true)
 }
 
 fun buildFileTree(json: RepoData): FolderInfo {
