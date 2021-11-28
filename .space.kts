@@ -1,5 +1,5 @@
 job("Generate and publish sites") {
-    container("Generate public site", "openjdk:11") {
+    container("Generate public site", "openkbs/jre-mvn-py3") {
         shellScript {
             interpreter = "/bin/bash"
             content = """
@@ -9,7 +9,7 @@ job("Generate and publish sites") {
         }
     }
 
-    container("Publish public site", "openjdk:11") {
+    container("Publish public site", "openkbs/jre-mvn-py3") {
         kotlinScript { api ->
             val siteSource = "$mountDir/share/site/public"
             val sourceDir = java.io.File(siteSource)
