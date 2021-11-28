@@ -1,24 +1,41 @@
 package components
 
+import config.Config
+import kotlinx.css.TextAlign
+import kotlinx.css.fontSize
+import kotlinx.css.textAlign
 import react.*
-import react.dom.*
+import styled.css
+import styled.styledH3
+import util.RunStatus
 
 external interface RepositoryProps : Props {
-    var isRunMade: Int
+    var isRunMade: RunStatus
 }
 
 val Repository = fc<RepositoryProps> { props ->
     when (props.isRunMade) {
-        2 -> h3 {
+        RunStatus.IN_PROCESS -> styledH3 {
+            css {
+                fontSize = Config.fontSize
+                textAlign = TextAlign.center
+            }
             +"Loading..."
         }
-        1 -> h3 {
+        RunStatus.OK -> styledH3 {
+            css {
+                fontSize = Config.fontSize
+                textAlign = TextAlign.center
+            }
             +"Repository trees:"
         }
-        0 -> h3 {
+        RunStatus.FAILED -> styledH3 {
+            css {
+                fontSize = Config.fontSize
+                textAlign = TextAlign.center
+            }
             +"Repositories not found"
         }
-        else -> h3 {}
     }
 }
 

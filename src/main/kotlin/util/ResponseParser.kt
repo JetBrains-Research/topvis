@@ -1,5 +1,6 @@
 package util
 
+import config.Config
 import kotlinx.browser.window
 import kotlinx.coroutines.await
 import kotlin.math.min
@@ -17,9 +18,9 @@ suspend fun getGitTree(): Pair<List<Pair<TreeInfo, String>>?, Boolean> {
     console.log("Result from Sosed received")
     val treeInfoList = json.data.map { data ->
         val folderInfo = buildFileTree(data)
-        console.log("Folder tree build done")
+        console.log("Folder tree build done: ${data.path}")
         val treeInfo = buildTreeInfo(folderInfo)
-        console.log("Folder tree transformation done")
+        console.log("Folder tree transformation done: ${data.path}")
         Pair(treeInfo, data.path)
     }.toList()
 
@@ -61,7 +62,7 @@ fun buildFileTree(json: RepoData): FolderInfo {
 fun buildTreeInfo(folderInfo: FolderInfo): TreeInfo {
     var topics = ""
     var isFirst = true
-    for (i in 0 until min(3, folderInfo.topicsList.size)) {
+    for (i in 0 until min(Config.topicsNumber, folderInfo.topicsList.size)) {
         if (isFirst) {
             isFirst = false
         } else {

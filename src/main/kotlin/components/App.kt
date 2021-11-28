@@ -1,5 +1,6 @@
 package components
 
+import config.Config
 import imports.collapse
 import imports.cssBaseline
 import util.TreeInfo
@@ -8,17 +9,17 @@ import imports.tree
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
-import kotlinx.css.fontSize
-import kotlinx.css.px
+import kotlinx.css.*
 import react.*
 import react.Props
 import react.dom.*
 import styled.css
+import styled.styledDiv
 import styled.styledH1
 import util.*
 
 external interface AppState : State {
-    var runStatus: Int
+    var runStatus: RunStatus
     var data: List<Pair<TreeInfo, String>>
 }
 
@@ -26,16 +27,16 @@ external interface AppState : State {
 @JsExport
 class App : RComponent<Props, AppState>() {
     init {
-        this.state.runStatus = 2
+        this.state.runStatus = RunStatus.IN_PROCESS
         MainScope().launch(Dispatchers.Default) {
             val result = getGitTree()
             console.log("Now updating")
             setState {
                 if (result.second) {
                     data = result.first!!
-                    runStatus = 1
+                    runStatus = RunStatus.OK
                 } else {
-                    runStatus = 0
+                    runStatus = RunStatus.FAILED
                 }
             }
         }
@@ -46,25 +47,34 @@ class App : RComponent<Props, AppState>() {
             cssBaseline {}
             styledH1 {
                 css {
-                    fontSize = 24.px
+                    fontSize = Config.fontSize
+                    textAlign = TextAlign.center
                 }
                 +"Repo tree visualizer"
             }
-            div {
-                repository {
-                    isRunMade = state.runStatus
+            repository {
+                isRunMade = state.runStatus
+            }
+            styledDiv {
+                css {
+                    marginLeft =  Config.globalLeftMargin
                 }
-                if (state.runStatus == 1) {
+                if (state.runStatus == RunStatus.OK) {
                     for (info in state.data) {
                         collapse {
                             attrs.title = info.second
-                            tree {
-                                attrs.value = info.first.files!!
+                            styledDiv {
+                                css {
+                                    marginLeft =  Config.treeLeftMargin
+                                }
+                                tree {
+                                    attrs.value = info.first.files!!
+                                }
                             }
                         }
                     }
                 }
-                if (state.runStatus == 0) {
+                if (state.runStatus == RunStatus.FAILED) {
                     h1 {
                         +"Something went wrong"
                     }
