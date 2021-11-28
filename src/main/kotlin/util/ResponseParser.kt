@@ -94,4 +94,3 @@ fun buildTreeInfo(folderInfo: FolderInfo): TreeInfo {
         )
     }
 }
-

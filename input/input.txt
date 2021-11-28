@@ -1,2 +1,3 @@
 https://github.com/JetBrains-Research/sosed
 https://github.com/JetBrains-Research/astminer
+https://github.com/JetBrains-Research/buckwheat
