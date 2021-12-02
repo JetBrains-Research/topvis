@@ -11,6 +11,10 @@ git submodule init
 git submodule update
 #git clone git@github.com:salkaevruslan/sosed.git
 cd sosed/
+mkdir -p out
+cd out
+rm -r *
+cd ..
 #git checkout topics
 pip3 install cython
 pip3 install -r requirements.txt
