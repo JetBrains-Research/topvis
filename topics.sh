@@ -21,6 +21,7 @@ pip3 install -r requirements.txt
 python3 -m sosed.setup_tokenizer
 python3 -m sosed.run_topics -i ../"$1" -o out --force
 cd ..
+mkdir -p site/public
 cp sosed/out/topics.json src/main/resources/topics.json
 ./gradlew clean build
 cp build/distributions/index.html site/public/
