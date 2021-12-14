@@ -1,6 +1,11 @@
 job("Generate and publish sites") {
     startOn {
-        gitPush { enabled = false }
+        gitPush {
+            branchFilter {
+                +"refs/heads/tree-visualization"
+                +"refs/heads/main"
+            }
+        }
     }
     container("Generate public site", "openkbs/jre-mvn-py3") {
         shellScript {
