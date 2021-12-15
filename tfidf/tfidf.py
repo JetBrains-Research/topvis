@@ -15,7 +15,7 @@ def get_files_list(repo):
     for root, dirs, files in os.walk(repo):
         path = root[len(repo):]
         if not (path.startswith("/.git/") or path == "/.git"):
-            if len(dirs) == 0 and len(files) == 0:
+            if os.path.isfile(path):
                 all_files.append(root)
             for file in files:
                 all_files.append(root + '/' + file)
@@ -128,25 +128,36 @@ def clone_repository(repository: str, directory: str) -> None:
 if __name__ == '__main__':
     parser = ArgumentParser()
     parser.add_argument("-i", "--input", required=True,
-                        help="Path to the input file with a list of links to GitHub.")
+                        help="Path to the input file with a list of links to GitHub/local repo.")
     parser.add_argument("-o", "--output", required=True,
                         help="Path to the directory for storing extracted data.")
+    parser.add_argument("-l", "--local", action="store_true",
+                        help="If passed, switches to local repositories.")
     args = parser.parse_args()
     with open(args.input) as fin:
         repositories_list = fin.read().splitlines()
     data = []
     for repository in repositories_list:
         print(f'Repo {repository}')
-        with TemporaryDirectory() as td:
+        if not args.local:
+            with TemporaryDirectory() as td:
+                try:
+                    clone_repository(repository, td)
+                except ValueError:
+                    print("{repository} is not a valid link!"
+                          .format(repository=repository))
+                    continue
+            dir_path = td
+        else:
             try:
-                clone_repository(repository, td)
-            except ValueError:
-                print("{repository} is not a valid link!"
-                      .format(repository=repository))
+                assert os.path.isdir(repository)
+            except AssertionError:
+                print("{repository} doesn't exist!".format(repository=repository))
                 continue
-            files = get_files_list(td)
-            print(f'Files found: {len(files)}')
-            tf_idf_vector, feature_names = tfidf(files)
-            files = list(map(lambda s: s[len(td):], files))
-            data.append((repository, get_result_data(files, tf_idf_vector, feature_names)))
+            dir_path = repository
+        files = get_files_list(dir_path)
+        print(f'Files found: {len(files)}')
+        tf_idf_vector, feature_names = tfidf(files)
+        files = list(map(lambda s: s[len(dir_path):], files))
+        data.append((repository, get_result_data(files, tf_idf_vector, feature_names)))
     build_json(data, args.output)
