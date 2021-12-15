@@ -17,7 +17,6 @@ while read line; do
   echo ../temp/$(basename "$line" .git) >> ./repos.txt
 done <../"$1"
 cd ..
-ls
 git submodule init
 git submodule update
 mkdir -p site/public/topics
@@ -37,9 +36,10 @@ cd tfidf
 pip3 install -U scikit-learn
 python3 -m tfidf -i "../temp/repos.txt" -o "out" --local
 cd ..
-cp ./tfidf/out/topics.json src/main/resources/topics/tfidf.json
+cp tfidf/out/topics.json src/main/resources/topics/tfidf.json
 ./gradlew clean build
 cp build/distributions/index.html site/public/
 cp build/distributions/topvis.js site/public/
-cp -r build/distributions/topics site/public/topics
+cp build/distributions/topvis.js.map site/public/
+cp -r build/distributions/topics site/public/
 rm -rf ./temp
