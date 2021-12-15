@@ -7,23 +7,39 @@ do
         exit 1
     fi
 done
+mkdir -p temp
+cd temp
+echo -n > ./repos.txt
+while read line; do
+  git clone --quiet --depth 1 "$line"
+  echo "Cloning $(basename "$line" .git)"
+  touch repos.txt
+  echo ../temp/$(basename "$line" .git) >> ./repos.txt
+done <../"$1"
+cd ..
+ls
 git submodule init
 git submodule update
-#git clone git@github.com:salkaevruslan/sosed.git
+mkdir -p site/public/topics
+mkdir -p src/main/resources/topics/
 cd sosed/
 mkdir -p out
 cd out
 rm -r *
 cd ..
-#git checkout topics
 pip3 install cython
 pip3 install -r requirements.txt
 python3 -m sosed.setup_tokenizer
-python3 -m sosed.run_topics -i ../"$1" -o out --force
+python3 -m sosed.run_topics -i "../temp/repos.txt" -o "out" --force --local
 cd ..
-mkdir -p site/public
-cp sosed/out/topics.json src/main/resources/topics.json
+cp sosed/out/topics.json src/main/resources/topics/sosed.json
+cd tfidf
+pip3 install -U scikit-learn
+python3 -m tfidf -i "../temp/repos.txt" -o "out" --local
+cd ..
+cp ./tfidf/out/topics.json src/main/resources/topics/tfidf.json
 ./gradlew clean build
 cp build/distributions/index.html site/public/
 cp build/distributions/topvis.js site/public/
-cp build/distributions/topics.json site/public/
+cp -r build/distributions/topics site/public/topics
+rm -rf ./temp
