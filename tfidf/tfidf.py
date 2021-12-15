@@ -75,30 +75,31 @@ def get_result_data(files, tf_idf_vector, feature_names):
     idx = 0
     stack = []
     print("Counting top words for directories")
+    docword['/'] = Counter()
     while idx < len(files_names):
         if idx % 10000 == 1:
             print(f'Iter: {idx}/{len(files_names)}')
         curr_name = files_names[idx]
         counter = docword[curr_name]
         curr_name = curr_name[:curr_name.rfind('/')]
+        docword['/'] += counter
         idx += 1
         while curr_name != '':
             if len(stack) > 0 and curr_name == stack[-1][0]:
                 counter += stack[-1][1]
                 stack.pop()
-            if idx < len(files_names) and files_names[idx].startswith(curr_name):
+            if idx < len(files_names) and files_names[idx].startswith(curr_name + '/'):
                 stack.append((curr_name, counter))
                 break
             else:
                 docword[curr_name] = counter
                 curr_name = curr_name[:curr_name.rfind('/')]
-            docword['/'] = counter
     data = collections.OrderedDict(sorted(docword.items()))
     return data
 
 
 def build_json(tfidf_result, output_dir):
-    out_file_path = os.path.join(output_dir, f"tfidf.json")
+    out_file_path = os.path.join(output_dir, f"topics.json")
     json_data = {"timestamp": str(datetime.datetime.utcnow()), "data": []}
     for repo, data in tfidf_result:
         repo_data = {"path": repo, 'files': []}
@@ -147,7 +148,10 @@ if __name__ == '__main__':
                     print("{repository} is not a valid link!"
                           .format(repository=repository))
                     continue
-            dir_path = td
+                dir_path = td
+                files = get_files_list(dir_path)
+                print(f'Files found: {len(files)}')
+                tf_idf_vector, feature_names = tfidf(files)
         else:
             try:
                 assert os.path.isdir(repository)
@@ -155,9 +159,9 @@ if __name__ == '__main__':
                 print("{repository} doesn't exist!".format(repository=repository))
                 continue
             dir_path = repository
-        files = get_files_list(dir_path)
-        print(f'Files found: {len(files)}')
-        tf_idf_vector, feature_names = tfidf(files)
+            files = get_files_list(dir_path)
+            print(f'Files found: {len(files)}')
+            tf_idf_vector, feature_names = tfidf(files)
         files = list(map(lambda s: s[len(dir_path):], files))
         data.append((repository, get_result_data(files, tf_idf_vector, feature_names)))
     build_json(data, args.output)
