@@ -13,7 +13,7 @@ data class Response(val timestamp: String, val data: Array<RepoData>)
 
 suspend fun getGitTree(): Pair<ParsedData?, Boolean> {
     val result =
-        window.fetch("topics.json").await().text().await()
+        window.fetch("topics/sosed.json").await().text().await()
     val json = JSON.parse<Response>(result)
     console.log("Result from Sosed received")
     val treeInfoList = json.data.map { data ->
