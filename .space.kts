@@ -52,7 +52,7 @@ job("Generate and publish internal site") {
             interpreter = "/bin/bash"
             content = """
                 mkdir -p internal-projects
-                cp /mnt/space/work/internal-projects/* internal-projects
+                cp -r /mnt/space/work/internal-projects .
                 cat internal-projects/projects.txt
                 ./topics-internal.sh internal-projects/projects.txt ${'$'}TOKEN
                 mkdir $mountDir/share/site
