@@ -15,7 +15,7 @@ while read line; do
   echo $line
   uri="https://$USER:$2@git.jetbrains.team/${line}.git"
   echo "Cloning $(basename "$line" .git)"
-  git clone --depth 1 "$uri" core.symlinks=false
+  git clone -c core.symlinks=false --depth 1 "$uri" 
   cd ${line##*/} && ls -la && cd ..
   touch repos.txt
   echo ../temp/$(basename "${line##*/}") >> ./repos.txt
