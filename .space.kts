@@ -40,7 +40,7 @@ job("Generate and publish internal site") {
         }
     }
     
-    container("Generate internal site", "openkbs/jre-mvn-py3") {
+    container("Generate internal site", "openkbs/jdk11-mvn-py3") {
         env["USER"] = Secrets("git-user")
         env["TOKEN"] = Secrets("git-token")
         shellScript {
