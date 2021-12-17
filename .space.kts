@@ -51,6 +51,7 @@ job("Generate and publish internal site") {
         shellScript {
             interpreter = "/bin/bash"
             content = """
+                cat internal-projects/projects.txt
                 ./topics-internal.sh internal-projects/projects.txt ${'$'}TOKEN
                 mkdir $mountDir/share/site
                 cp -r site/internal $mountDir/share/site
