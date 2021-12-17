@@ -33,7 +33,7 @@ python3 -m sosed.run_topics -i "../temp/repos.txt" -o "out" --force --local
 cd ..
 cp sosed/out/topics.json src/main/resources/topics/sosed.json
 cd tfidf
-pip3 install -U scikit-learn
+pip3 install -U scikit-learn==1.0.1
 python3 -m tfidf -i "../temp/repos.txt" -o "out" --local
 cd ..
 cp tfidf/out/topics.json src/main/resources/topics/tfidf.json

@@ -7,7 +7,7 @@ job("Generate and publish public site") {
             }
         }
     }
-    container("Generate public site", "openkbs/jre-mvn-py3") {
+    container("Generate public site", "openkbs/jdk11-mvn-py3") {
         shellScript {
             interpreter = "/bin/bash"
             content = """
