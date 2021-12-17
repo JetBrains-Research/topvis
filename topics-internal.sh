@@ -7,6 +7,7 @@ do
         exit 1
     fi
 done
+pip3 install --upgrade pip3
 mkdir -p temp
 cd temp
 echo -n > ./repos.txt
