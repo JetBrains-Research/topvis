@@ -39,6 +39,11 @@ job("Generate and publish internal site") {
             enabled = false
         }
     }
+
+    git("internal-projects") {
+        cloneDir = "internal-projects"
+        refSpec = "master"
+    }
     
     container("Generate internal site", "openkbs/jdk11-mvn-py3") {
         env["USER"] = Secrets("git-user")
@@ -46,8 +51,7 @@ job("Generate and publish internal site") {
         shellScript {
             interpreter = "/bin/bash"
             content = """
-                echo "tcd/loader-sample" >> input/input-internal.txt
-                ./topics-internal.sh input/input-internal.txt ${'$'}TOKEN
+                ./topics-internal.sh internal-projects/projects.txt ${'$'}TOKEN
                 mkdir $mountDir/share/site
                 cp -r site/internal $mountDir/share/site
             """.trimIndent()
