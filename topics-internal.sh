@@ -28,9 +28,7 @@ mkdir -p site/internal/topics
 mkdir -p src/main/resources/topics_internal/
 cd sosed/
 mkdir -p out
-cd out
-rm -r *
-cd ..
+rm -r out/*
 pip3 install cython
 pip3 install -r requirements.txt
 python3 -m sosed.setup_tokenizer
