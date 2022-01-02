@@ -37,6 +37,9 @@ pip3 install -U scikit-learn==1.0.1
 python3 -m tfidf -i "../temp/repos.txt" -o "out" --local
 cd ..
 cp tfidf/out/topics.json src/main/resources/topics/tfidf.json
+cd src/main/resources/topics
+ls *.json > ../resources.txt
+cd ../../../..
 ./gradlew clean build
 cp build/distributions/index.html site/public/
 cp build/distributions/topvis.js site/public/
