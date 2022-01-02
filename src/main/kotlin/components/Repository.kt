@@ -6,6 +6,7 @@ import kotlinx.css.fontSize
 import kotlinx.css.textAlign
 import react.*
 import styled.css
+import styled.styledDiv
 import styled.styledH3
 import util.RunStatus
 
@@ -22,19 +23,14 @@ val Repository = fc<RepositoryProps> { props ->
             }
             +"Loading..."
         }
-        RunStatus.OK -> styledH3 {
-            css {
-                fontSize = Config.fontSize
-                textAlign = TextAlign.center
-            }
-            +"Repository trees:"
+        RunStatus.OK -> styledDiv {
         }
         RunStatus.FAILED -> styledH3 {
             css {
                 fontSize = Config.fontSize
                 textAlign = TextAlign.center
             }
-            +"Repositories not found"
+            +"Something went wrong"
         }
     }
 }
