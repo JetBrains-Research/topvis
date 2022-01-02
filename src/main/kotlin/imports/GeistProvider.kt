@@ -1,4 +1,4 @@
-@file:JsModule("@geist-ui/react")
+@file:JsModule("@salkaevruslan/react")
 @file:JsNonModule
 
 package imports

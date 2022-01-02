@@ -57,6 +57,7 @@ class App : RComponent<Props, AppState>() {
             styledDiv {
                 css {
                     marginLeft = Config.globalLeftMargin
+                    marginRight = Config.globalRightMargin
                 }
                 if (state.runStatus == RunStatus.OK) {
                     for (info in state.data.treeData) {
