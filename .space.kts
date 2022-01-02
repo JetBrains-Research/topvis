@@ -1,5 +1,5 @@
 job("Generate and publish sites") {
-    container("Generate public site", "openkbs/jre-mvn-py3") {
+    container("Generate public site", "openkbs/jdk11-mvn-py3") {
         shellScript {
             interpreter = "/bin/bash"
             content = """
