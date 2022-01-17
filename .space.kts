@@ -1,8 +1,10 @@
 job("Generate and publish sites") {
     container("Generate public site", "openkbs/jdk11-mvn-py3") {
+        env["NPMAUTH"] = Secrets("npm-auth-line")
         shellScript {
             interpreter = "/bin/bash"
             content = """
+                echo ${'$'}NPMAUTH >> .npmrc
                 ./topics.sh input/input.txt
                 cp -r site $mountDir/share
             """.trimIndent()
