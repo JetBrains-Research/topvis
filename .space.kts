@@ -8,9 +8,11 @@ job("Generate and publish public site") {
         }
     }
     container("Generate public site", "openkbs/jdk11-mvn-py3") {
+        env["NPMAUTH"] = Secrets("npm-auth-line")
         shellScript {
             interpreter = "/bin/bash"
             content = """
+                echo ${'$'}NPMAUTH >> .npmrc
                 ./topics-public.sh input/input.txt
                 cp -r site $mountDir/share
             """.trimIndent()

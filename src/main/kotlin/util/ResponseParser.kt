@@ -11,11 +11,15 @@ data class RepoData(val path: String, val files: Array<FileData>)
 
 data class Response(val timestamp: String, val data: Array<RepoData>)
 
-suspend fun getGitTree(): Pair<ParsedData?, Boolean> {
+suspend fun getTreeSourcesList(): List<String> {
+    return window.fetch(Config.resourcesFile).await().text().await().lines()
+}
+
+suspend fun getGitTree(fileName: String): Pair<ParsedData?, Boolean> {
     val result =
-        window.fetch("topics/sosed.json").await().text().await()
+        window.fetch(Config.topicsDir + fileName).await().text().await()
     val json = JSON.parse<Response>(result)
-    console.log("Result from Sosed received")
+    console.log("Result from $fileName received")
     val treeInfoList = json.data.map { data ->
         val folderInfo = buildFileTree(data)
         console.log("Folder tree build done: ${data.path}")

@@ -7,6 +7,9 @@ class Config {
         const val topicsNumber = 3
         val fontSize = 24.px
         val globalLeftMargin = 10.px
+        val globalRightMargin = 10.px
         val treeLeftMargin = 50.px
+        const val topicsDir = "topics/"
+        const val resourcesFile = "resources.txt"
     }
 }

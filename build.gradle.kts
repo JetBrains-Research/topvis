@@ -47,7 +47,7 @@ dependencies {
     implementation(npm("react", "17.0.2"))
     implementation(npm("react-dom", "17.0.2"))
 
-    implementation(npm("@geist-ui/react", "2.2.0"))
+    implementation(npm("@salkaevruslan/react", "2.2.2"))
 
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.1")
 
