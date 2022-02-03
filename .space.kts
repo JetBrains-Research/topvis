@@ -50,12 +50,14 @@ job("Generate and publish internal site") {
     container("Generate internal site", "openkbs/jdk11-mvn-py3") {
         env["USER"] = Secrets("git-user")
         env["TOKEN"] = Secrets("git-token")
+        env["NPMAUTH"] = Secrets("npm-auth-line")
         shellScript {
             interpreter = "/bin/bash"
             content = """
                 mkdir -p internal-projects
                 cp -r /mnt/space/work/internal-projects .
                 cat internal-projects/projects.txt
+                echo ${'$'}NPMAUTH >> .npmrc
                 ./topics-internal.sh internal-projects/projects.txt ${'$'}TOKEN
                 mkdir $mountDir/share/site
                 cp -r site/internal $mountDir/share/site
