@@ -102,7 +102,7 @@ def build_json(tfidf_result, output_dir):
     out_file_path = os.path.join(output_dir, f"topics.json")
     json_data = {"timestamp": str(datetime.datetime.utcnow()), "data": []}
     for repo, data in tfidf_result:
-        repo_data = {"path": repo, 'files': []}
+        repo_data = {"path": repo.split('/')[-1], 'files': []}
         for key, cnt in data.items():
             file_data = {'path': key, 'topics': [], 'probs': []}
             for word, value in cnt.most_common(5):
