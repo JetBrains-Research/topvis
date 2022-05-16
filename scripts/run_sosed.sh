@@ -12,6 +12,11 @@ pip3 install --upgrade pip
 pip3 install cython
 pip3 install -r requirements.txt
 python3 -m sosed.setup_tokenizer
+if [ -n "$2" ]
+then
+  cp "$2/sosed/data/clusters.npy" data/clusters.npy
+  cp "$2/sosed/data/tokens.txt" data/tokens.txt
+fi
 python3 -m sosed.run_topics -i "$1" -o "out" --force --local
 deactivate
 rm -rf ./venv
