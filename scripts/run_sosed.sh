@@ -15,8 +15,8 @@ python3 -m sosed.setup_tokenizer
 if [ -n "$2" ]
 then
   cd ..
-  cp "$2/sosed/data/clusters.npy" data/clusters.npy
-  cp "$2/sosed/data/tokens.txt" data/tokens.txt
+  cp "$2/sosed/data/clusters.npy" sosed/data/clusters.npy
+  cp "$2/sosed/data/tokens.txt" sosed/data/tokens.txt
   cd sosed/
 fi
 python3 -m sosed.run_topics -i "$1" -o "out" --force --local
